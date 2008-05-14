@@ -399,7 +399,7 @@ changed, the text of form will change too."
 ;;{{{  basic functions
 (defun tempo-x-delete-overlay (ov)
   "Delete mirror field, add marker for navigator after deletion."
-  (when (overlayp ov)
+  (when (and (overlayp ov) (overlay-buffer ov))
     (tempo-insert-mark (copy-marker (overlay-start ov)))
     (delete-overlay ov)))
 

@@ -1,3 +1,7 @@
+2008-05-05  Ye Wenbin  <wenbinye@gmail.com>
+
+	* lib/Emacs/PDE.pm: rename module name from PDE to Emacs::PDE
+
 2008-05-03  Ye Wenbin  <wenbinye@gmail.com>
 
 	* lisp/pde-project.el (pde-project-find-file): Using uniquified

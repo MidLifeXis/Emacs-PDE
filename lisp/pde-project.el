@@ -54,7 +54,7 @@
   :type '(repeat regexp)
   :group 'pde-project)
 
-(defcustom pde-file-list-predicate-function nil
+(defcustom pde-file-list-filter-function nil
   "Predicate function to filter file to be read when `pde-project-find-file'.
 Call with one argument, the path relative to pde-project-root,
 return non-nil if ignore the file."
@@ -124,16 +124,16 @@ This file will find in the directory detect by `pde-detect-project-root'"
        "/" "::"
        (replace-regexp-in-string "\\.\\(pm\\|pod\\)" "" package)))))
 
-(defun pde-directory-all-files (dir &optional full match predicate limit)
+(defun pde-directory-all-files (dir &optional full match filter limit)
   "Recursive read file name in DIR.
 Return a cons cell which car indicate whether all files read
 and cdr part is the real file list.
 
 Like `directory-files', if FULL is non-nil, return absolute file
 names, if match is non-nil, mention only file names match the
-regexp MATCH. If PREDICATE is non-nil and is a function with one
-argument, the file name relative to DIR, mention only file when
-PREDICATE function return non-nil value. If LIMIT is non-nil,
+regexp MATCH. If FILTER is non-nil and is a function with one
+argument, the file name relative to DIR, ignore the file when
+FILTER function return non-nil. If LIMIT is non-nil,
 when the files execeed the number will stop. The function is
 search in wide-first manner."
   (let ((default-directory (file-name-as-directory dir)))
@@ -147,8 +147,8 @@ search in wide-first manner."
         (dolist (file (directory-files dir nil match))
           (unless (or (string= file ".") (string= file ".."))
             (setq file (concat dir file))
-            (when (or (null predicate) (not (funcall predicate file)))
-              (incf i)
+            (when (or (null filter) (not (funcall filter file)))
+              (setq i (1+ i))
               (when (file-directory-p file)
                 (setq file (file-name-as-directory file))
                 (push file queue))
@@ -166,22 +166,22 @@ search in wide-first manner."
               (push file file-list)))
           (cons t file-list))
       (let ((pde-file-list-ignore-regexps pde-file-list-ignore-regexps)
-            (predicate pde-file-list-predicate-function))
+            (filter pde-file-list-filter-function))
         (when (file-exists-p (expand-file-name pde-file-list-ignore-file dir))
           (setq pde-file-list-ignore-regexps
                 (append pde-file-list-ignore-regexps
                         (pde-read-lines (expand-file-name pde-file-list-ignore-file dir)))))
         (when pde-file-list-ignore-regexps
-          (setq predicate
+          (setq filter
                 (lambda (file)
-                  (or (if pde-file-list-predicate-function
-                          (funcall pde-file-list-predicate-function file))
+                  (or (if pde-file-list-filter-function
+                          (funcall pde-file-list-filter-function file))
                       (catch 'found
                         (dolist (re pde-file-list-ignore-regexps)
                           (if (string-match re file)
                               (throw 'found t))))))))
         (pde-directory-all-files dir nil
-                                 pde-file-list-regexp predicate
+                                 pde-file-list-regexp filter
                                  pde-file-list-limit)))))
 
 (defun pde-read-lines (file &optional comment-char)

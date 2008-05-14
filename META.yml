@@ -1,6 +1,6 @@
 ---
 name: Emacs-PDE
-version: v0.2.14
+version: v0.2.15
 author: []
 abstract: Perl Development Environment in emacs
 license: perl
@@ -14,7 +14,7 @@ provides:
       version:
         - 0
         - 2
-        - 14
+        - 15
   Emacs::PDE::Util:
     file: lib/Emacs/PDE/Util.pm
 generated_by: Module::Build version 0.2805

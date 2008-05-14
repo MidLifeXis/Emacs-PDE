@@ -69,7 +69,7 @@
       (outline-mode)
       (setq proc
             (apply 'start-process "list-shadow" buf pde-perl-program
-                   "-MPDE::Util" "-e" "list_shadows" args))
+                   "-MEmacs::PDE::Util" "-e" "list_shadows" args))
       (set-process-sentinel proc
                             (lambda (proc event)
                               (if (y-or-n-p "Module shadows generated, See now? ")
@@ -99,7 +99,7 @@
         (switch-to-buffer bufname)
       (switch-to-buffer (get-buffer-create bufname))
       (apply 'call-process pde-perl-program nil t nil
-             "-MPDE::Util" "-e" "list_core_modules"
+             "-MEmacs::PDE::Util" "-e" "list_core_modules"
              (if pde-utils-module-location
                  (list (concat "-I" pde-utils-module-location))))
       (pde-hyperlink-modules))))
