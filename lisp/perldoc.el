@@ -265,8 +265,7 @@ function is the same, add \".pod\" for the module name. For example,
           (setq mod (symbol-name def))
         (if (and (string-match "::" mod)
                  (yes-or-no-p (concat mod " Seem like a Perl module. Add it temporarily (use C-u M-x perldoc-build-obarray to update)")))
-            (setq def (intern mod perldoc-obarray))
-          (signal 'quit "quit"))))
+            (setq def (intern mod perldoc-obarray)))))
     (and def
          (or (not modulep)
              (eq (perldoc-symbol-type def) 'module))

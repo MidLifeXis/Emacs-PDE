@@ -161,6 +161,7 @@ will echo \"Hello World!\"
                (insert str))
       (message str))))
 
+;;;###autoload
 (defun pde-yaml-dump (beg end replace)
   "Read Perl data from region and dump as YAML.
 For example call the command on region:
@@ -181,6 +182,7 @@ will turn out to be:
         (src "use YAML; my $var = %s; print Dump($var)\n"))
     (pde-call-process-region beg end replace (format src str))))
 
+;;;###autoload
 (defun pde-yaml-load (beg end replace)
   "Read YAML data and dump as Perl data.
 For example call the command on region:

@@ -1,3 +1,9 @@
+2008-07-12  Ye Wenbin  <wenbinye@gmail.com>
+
+	* lisp/perldoc.el (perldoc-module-ap): Fix for ffap
+
+	* lisp/compile-dwim.el (compile-dwim-compile, compile-dwim-run): Fix the modify time check.
+
 2008-05-05  Ye Wenbin  <wenbinye@gmail.com>
 
 	* lib/Emacs/PDE.pm: rename module name from PDE to Emacs::PDE
